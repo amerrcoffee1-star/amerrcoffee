@@ -39,8 +39,6 @@ body {
     z-index: 100;
 }
 
-/* ... (باقي تنسيقات الهيدر والـ Hero Section كما هي) ... */
-
 #main-header .container {
     display: flex;
     justify-content: space-between;
@@ -71,11 +69,14 @@ body {
 }
 
 
-/* قسم الصفحة الرئيسي (Hero Section) */
+/* قسم الصفحة الرئيسي (Hero Section) - تم التعديل هنا لعدم قص الصورة */
 .hero-section {
-    /* تأكد من اسم الصورة هنا */
-    background: url('amercoffee.jpg') no-repeat center center/cover; 
-    min-height: 500px;
+    /* تم تغيير /cover إلى /contain لعرض الصورة كاملة */
+    background: url('amercoffee.jpg') no-repeat center center/contain; 
+    
+    /* زيادة الارتفاع قليلاً لضمان ظهور محتوى الصورة كامل */
+    min-height: 600px; 
+    
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -267,3 +268,80 @@ body {
     opacity: 1;
     transform: translate(0, 0);
 }
+
+
+/* ----------------------------------- */
+/* إصلاح الاستجابة للأجهزة الصغيرة (Media Query) */
+/* ----------------------------------- */
+@media (max-width: 768px) {
+    
+    .container {
+        width: 95%; 
+    }
+    
+    /* إصلاح شريط التنقل (Navigation Bar) */
+    #main-header .container {
+        flex-direction: column; /* جعل الشعار والروابط فوق بعض */
+        align-items: center;
+    }
+    #main-header ul {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+    #main-header ul li a {
+        margin-right: 0;
+        padding: 8px 0;
+        display: block;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* إصلاح قسم الصورة الرئيسية (Hero Section) */
+    .hero-section {
+        /* زيادة الارتفاع على الموبايل ليتسع للصورة */
+        min-height: 500px; 
+        
+        /* تأكيد background-size: contain لعرض الصورة كاملة */
+        background-size: contain; 
+        
+        justify-content: center;
+    }
+
+    .hero-content {
+        width: 90%; /* جعل مربع النص يأخذ عرض الشاشة بالكامل تقريباً */
+        padding: 30px 20px;
+        text-align: center; /* توسيط النص */
+        
+        /* إزالة الشكل المموج (clip-path) على الموبايل لمنع قص المحتوى */
+        clip-path: none; 
+        
+        /* جعل الخلفية أكثر وضوحًا للقراءة */
+        background-color: rgba(56, 34, 0, 0.95); 
+    }
+    
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    /* إصلاح شبكة المنتجات (لجعلها عمودية) */
+    .drinks-grid {
+        flex-direction: column;
+        gap: 100px;
+    }
+
+    .drink-item {
+        flex-basis: 100%; /* جعل كل منتج يأخذ سطر كامل */
+        margin: 0;
+    }
+    
+    /* إصلاح قسم الاتصال */
+    .contact-links a {
+        flex-direction: column; /* وضع الأيقونة والنص فوق بعضهما */
+    }
+    .contact-links .icon {
+        margin-left: 0;
+        margin-bottom: 5px;
+    }
+    }
+    
