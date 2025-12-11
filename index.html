@@ -1,201 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amerrcoffee - بُن عامر</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body>
-
-    <div id="side-drawer" class="drawer">
-        <button class="close-btn" onclick="closeSidebar()">&times;</button>
-        <h3>Amerrcoffee</h3>
-        <ul>
-            <li><button data-page="home"><i class="fas fa-home"></i> الرئيسية</button></li>
-            <li><button data-page="menu-page"><i class="fas fa-clipboard-list"></i> المنيو</button></li>
-            <li><button data-page="store"><i class="fas fa-store"></i> المتجر</button></li>
-            <li><button data-page="who-are-we"><i class="fas fa-info-circle"></i> من نحن</button></li>
-            <li><button data-page="contact"><i class="fas fa-phone-alt"></i> اتصل بنا</button></li>
-        </ul>
-        <div class="social-links">
-            <a href="https://www.facebook.com/share/1C2fEmsDkp/" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://www.instagram.com/amerrcoffee?igsh=aHRlaWVrcmI5MjAz" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://wa.me/201029352797" target="_blank"><i class="fab fa-whatsapp"></i></a>
-        </div>
-    </div>
-    
-    <div id="cart-sidebar" class="drawer">
-        <button class="close-btn" onclick="closeCartSidebar()">&times;</button>
-        <h3>🛒 عربة التسوق</h3>
-        <div id="cart-items"></div>
-        <div class="cart-summary">
-            <strong>الإجمالي:</strong>
-            <strong id="cart-total">0.00 ج</strong>
-        </div>
-        <button onclick="navigate('checkout'); closeCartSidebar();" class="checkout-btn">
-            إكمال عملية الدفع
-        </button>
-    </div>
-
-    <header>
-        <i id="sidebar-toggle" class="fas fa-bars"></i>
-        <h1>Amerrcoffee - بُن عامر</h1>
-        
-        <div class="search-container">
-            <input type="text" id="global-search-input" class="search-input" placeholder="ابحث في المتجر، المنتجات أو الأقسام..." aria-label="بحث شامل">
-            <button id="global-search-btn" class="search-btn"><i class="fas fa-search"></i></button>
-        </div>
-        
-        <div id="cart-toggle" class="cart-icon">
-            <i class="fas fa-shopping-cart"></i>
-            <span id="cart-count">0</span>
-        </div>
-    </header>
-
-    <main>
-        
-        <section id="home" class="page-section">
-            <h2 class="section-title">مرحباً بك في عالم بُن عامر</h2>
-            <div class="image-banner">
-                <img src="amerrcoffee.jpg" alt="Amerrcoffee Welcome Image">
-            </div>
-            <h3 style="text-align: center; margin-top: 30px; color: var(--color-accent);">أفضل أنواع البن الطازج بين يديك.</h3>
-            <button onclick="navigate('store')" class="checkout-btn" style="width: fit-content; margin: 20px auto; display: block;">ابدأ التسوق</button>
-        </section>
-
-        <section id="menu-page" class="page-section" style="display: none;">
-            <h2 class="section-title">Menu  </h2>
-            <div class="image-banner">
-                <img src="menu.jpg" alt="قائمة منيو بُن عامر">
-                <p class="image-caption">لطلب أي منتج، انتقل إلى صفحة المتجر.</p>
-            </div>
-        </section>
-        
-        <section id="store" class="page-section" style="display: none;">
-            <h2 class="section-title">Store </h2>
-            <div id="store-content"></div>
-        </section>
-
-        <section id="who-are-we" class="page-section" style="display: none;">
-            <h2 class="section-title">من نحن؟</h2>
-            <div class="text-card" style="padding: 20px; text-align: center; background-color: var(--color-light-bg); border-radius: 8px; box-shadow: var(--shadow-light);">
-                <img src="pr7.jpg" alt="فريق عمل بُن عامر" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 15px;">
-                <p style="font-size: 1.1em; color: var(--color-text);">
-                    قصتنا تبدأ بشغفنا بالبن وجودته العالية، لنقدم لك أفضل تجربة قهوة. 
-                    نحن نختار الحبوب بعناية فائقة ونحمصها باتقان لتصل إليك بأفضل نكهة ممكنة. 
-                    هدفنا هو أن نكون مصدرك الموثوق لأجود أنواع البن الطازج.
-                </p>
-            </div>
-        </section>
-
-        <section id="contact" class="page-section" style="display: none;">
-            <h2 class="section-title">تواصل معنا</h2>
-            <div class="contact-info-box">
-                <h3 style="color: var(--color-primary);">روابط التواصل المباشرة</h3>
-                <div class="contact-social-links">
-                    <a href="https://www.facebook.com/share/1C2fEmsDkp/" target="_blank"><i class="fab fa-facebook-square"></i></a>
-                    <a href="https://www.instagram.com/amerrcoffee?igsh=aHRlaWVrcmI5MjAz" target="_blank"><i class="fab fa-instagram-square"></i></a>
-                    <a href="https://wa.me/201029352797" target="_blank"><i class="fab fa-whatsapp-square"></i></a>
-                </div>
-                <h3 style="color: var(--color-primary); margin-top: 20px;">معلومات أخرى</h3>
-                <p><i class="fas fa-envelope"></i> Amerrcoffee1@gmail.com</p>
-                <p><i class="fas fa-phone"></i> +2010 29352797</p>
-            </div>
-        </section>
-        
-        <section id="checkout" class="page-section" style="display: none;">
-             <h2 class="section-title">إتمام عملية الدفع</h2>
-            
-            <form id="checkout-form">
-                <div class="checkout-grid">
-                    <div class="checkout-details">
-                        <h3 style="margin-top: 0;">1. بيانات الزبون والشحن</h3>
-                        <input type="text" id="customer-name" placeholder="الاسم كاملاً" required class="auth-input">
-                        <input type="tel" id="customer-phone" placeholder="رقم الهاتف" required class="auth-input">
-                        <input type="email" id="customer-email" placeholder="البريد الإلكتروني (اختياري)" class="auth-input">
-                        <textarea id="customer-address" placeholder="العنوان بالكامل وتفاصيل الشحن" required class="auth-input" style="height: 100px;"></textarea>
-                    
-                        <h3 style="margin-top: 30px;">2. اختيار طريقة الدفع</h3>
-                        <div id="payment-options" class="payment-options">
-                            
-                            <label class="payment-card">
-                                <input type="radio" name="payment-method" value="InstaPay" required>
-                                <span class="card-content">
-                                    <i class="fas fa-money-check-alt fa-2x"></i>
-                                    <p>InstaPay</p>
-                                </span>
-                            </label>
-
-                            <label class="payment-card">
-                                <input type="radio" name="payment-method" value="Vodafone Cash">
-                                <span class="card-content">
-                                    <i class="fas fa-mobile-alt fa-2x"></i>
-                                    <p>Vodafone Cash</p>
-                                </span>
-                            </label>
-
-                            <label class="payment-card">
-                                <input type="radio" name="payment-method" value="Telda">
-                                <span class="card-content">
-                                    <i class="fas fa-wallet fa-2x"></i>
-                                    <p>Telda</p>
-                                </span>
-                            </label>
-
-                            <label class="payment-card">
-                                <input type="radio" name="payment-method" value="الدفع عند الاستلام" checked>
-                                <span class="card-content">
-                                    <i class="fas fa-hand-holding-usd fa-2x"></i>
-                                    <p>عند الاستلام</p>
-                                </span>
-                            </label>
-
-                        </div>
-                    </div>
-                    
-                    <div class="checkout-summary-box">
-                        <h3>ملخص الطلب</h3>
-                        <div id="checkout-items-summary" class="summary-list">
-                            </div>
-                        <div class="summary-total">
-                            <span>الإجمالي الكلي:</span>
-                            <strong id="checkout-total">0.00 ج</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <button type="submit" class="checkout-btn final-submit">
-                    تأكيد الطلب وإرساله عبر واتساب <i class="fab fa-whatsapp"></i>
-                </button>
-                <p class="privacy-note" style="text-align: center; color: var(--color-accent);">سيتم توجيهك إلى الواتساب لإتمام الإرسال.</p>
-            </form>
-        </section>
-
-    </main>
-
-    <div id="toast-notification" class="toast-notification"></div>
-
-    <footer>
-        <div class="footer-links">
-            <div>
-                <a href="mailto:Amerrcoffee1@gmail.com"><i class="fas fa-envelope"></i> Amerrcoffee1@gmail.com</a>
-                <a href="tel:+201029352797"><i class="fas fa-phone"></i> +2010 29352797</a>
-                <a href="https://wa.me/201029352797" target="_blank"><i class="fab fa-whatsapp"></i> واتساب</a>
-            </div>
-            <img src="qr.png" alt="QR Code" style="width: 80px; height: 80px;">
-        </div>
-        <p class="copyright">© 2024 Amerrcoffee - بُن عامر. جميع الحقوق محفوظة.</p>
-    </footer>
-
-    <div class="footer-nav">
-        <button data-page="home"><i class="fas fa-home"></i> الرئيسية</button>
-        <button data-page="menu-page"><i class="fas fa-clipboard-list"></i> المنيو</button>
-        <button data-page="store"><i class="fas fa-store"></i> المتجر</button>
-        <button data-page="contact"><i class="fas fa-phone-alt"></i> اتصل بنا</button>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-                                </html>
