@@ -1,4 +1,4 @@
-// script.js - النسخة النهائية والمعدلة
+// script.js - النسخة النهائية والمعدلة والمصححة
 
 // 🚨🚨🚨 [ بيانات الإعدادات ] 🚨🚨🚨
 const WHATSAPP_PHONE_NUMBER = '201029352797'; 
@@ -12,14 +12,14 @@ const defaultSize = availableSizes[3]; // '1000 ج' - الحجم الافترا�
 
 const PAGE_SECTIONS = {
     'home': 'الرئيسية',
-    'store': 'Store and Products   ',
-    'menu-page': 'Menu ',
-    'who-are-we': 'Who are we? ',
-    'contact': ' Contact us ',
-    'checkout': 'Payment completed   ', 
+    'store': 'المتجر وقائمة المنتجات',
+    'menu-page': 'المنيو المصورة',
+    'who-are-we': 'من نحن',
+    'contact': 'تواصل معنا',
+    'checkout': 'إتمام عملية الدفع', 
 };
 
-// البيانات التي تحدد المنتجات وأسعارها
+// البيانات التي تحدد المنتجات وأسعارها (تم تحديثها وفقاً لآخر إدخال)
 const productsData = [
     {
         category: "بُن فاتح",
@@ -458,4 +458,4 @@ function handleGlobalSearch() {
     // 1. البحث عن الصفحات
     for (const id in PAGE_SECTIONS) {
         const name = normalizeArabic(PAGE_SECTIONS[id]);
-        if (name.includes(normali
+        if (name.includes(
