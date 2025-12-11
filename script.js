@@ -417,7 +417,7 @@ function handleCheckout(event) {
     let orderDetailsList = cart.map(item => `* ${item.name} (${item.type}): ${item.quantity} x ${item.price} ج`).join('\n');
     
     const whatsappMessage = 
-`*🚨 طلب جديد من موقع Amerrcoffee 🚨*
+`*🚨 طلب جديد من ستور Amerrcoffee 🚨*
 
 *الاسم:* ${name}
 *الهاتف:* ${phone}
