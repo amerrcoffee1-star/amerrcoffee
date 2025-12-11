@@ -43,9 +43,9 @@ const productsData = [
                 { type: "محوج مخصوص", price: 720 }
             ]},
             { name: "بُن وسط - توليفة أرابيكا", image: 'pr5.jpg', variants: [
-                { type: "سادة", price: 620 },
-                { type: "محوج", price: 680 },
-                { type: "محوج مخصوص", price: 800 }
+                { type: "سادة", price: 600 },
+                { type: "محوج", price: 660 },
+                { type: "محوج مخصوص", price: 780 }
             ]},
         ]
     },
