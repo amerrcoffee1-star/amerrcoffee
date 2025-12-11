@@ -19,29 +19,46 @@ const PAGE_SECTIONS = {
 
 const productsData = [
     {
-        category: "بُن فاتح - وسط",
+        category: "بُن فاتح",
         items: [
-            { name: "بُن فاتح - وسط توليفة عامر", image: 'pr5.jpg', variants: [
+            { name: "بُن فاتح - توليفة عامر", image: 'pr5.jpg', variants: [
                 { type: "سادة", price: 540 },
                 { type: "محوج", price: 600 },
                 { type: "محوج مخصوص", price: 720 }
             ]},
-            { name: "بُن فاتح - وسط توليفة أرابيكا", image: 'pr5.jpg', variants: [
+            { name: "بُن فاتح - توليفة أرابيكا", image: 'pr5.jpg', variants: [
                 { type: "سادة", price: 600 },
                 { type: "محوج", price: 660 },
                 { type: "محوج مخصوص", price: 780 }
             ]},
         ]
     },
+    // ⬇️⬇️⬇️ تمت إضافة فئة "بُن وسط" الجديدة هنا ⬇️⬇️⬇️
     {
-        category: "بُن غامق شرقي",
+        category: "بُن وسط",
         items: [
-            { name: "بُن غامق شرقي توليفة عامر", image: 'pr5.jpg', variants: [
+            { name: "بُن وسط - توليفة عامر", image: 'pr5.jpg', variants: [
+                { type: "سادة", price: 550 }, // سعر تقريبي
+                { type: "محوج", price: 610 },
+                { type: "محوج مخصوص", price: 730 }
+            ]},
+            { name: "بُن وسط - توليفة أرابيكا", image: 'pr5.jpg', variants: [
+                { type: "سادة", price: 610 },
+                { type: "محوج", price: 670 },
+                { type: "محوج مخصوص", price: 790 }
+            ]},
+        ]
+    },
+    // ⬆️⬆️⬆️ نهاية الفئة الجديدة ⬆️⬆️⬆️
+    {
+        category: "بُن غامق",
+        items: [
+            { name: "بُن غامق - توليفة عامر", image: 'pr5.jpg', variants: [
                 { type: "سادة", price: 560 },
                 { type: "محوج", price: 620 },
                 { type: "محوج مخصوص", price: 740 }
             ]},
-            { name: "بُن غامق شرقي توليفة أرابيكا", image: 'pr5.jpg', variants: [
+            { name: "بُن غامق - توليفة أرابيكا", image: 'pr5.jpg', variants: [
                 { type: "سادة", price: 620 },
                 { type: "محوج", price: 680 },
                 { type: "محوج مخصوص", price: 800 }
@@ -51,22 +68,22 @@ const productsData = [
     {
         category: "بُن محروق",
         items: [
-            { name: "بُن محروق توليفة عامر", image: 'pr5.jpg', variants: [
+            { name: "بُن محروق - توليفة عامر", image: 'pr5.jpg', variants: [
                 { type: "سادة", price: 580 },
                 { type: "محوج", price: 640 },
                 { type: "محوج مخصوص", price: 760 }
             ]},
-            { name: "بُن محروق كولومبي", image: 'pr5.jpg', variants: [
+            { name: "بُن محروق - كولومبي", image: 'pr5.jpg', variants: [
                 { type: "سادة", price: 810 },
                 { type: "محوج", price: 920 },
                 { type: "محوج مخصوص", price: 990 }
             ]},
-            { name: "بُن محروق حبشي", image: 'pr5.jpg', variants: [
+            { name: "بُن محروق - حبشي", image: 'pr5.jpg', variants: [
                 { type: "سادة", price: 600 },
                 { type: "محوج", price: 660 },
                 { type: "محوج مخصوص", price: 780 }
             ]},
-            { name: "بُن محروق اسبريسو", image: 'pr5.jpg', variants: [
+            { name: "بُن محروق - اسبريسو", image: 'pr5.jpg', variants: [
                 { type: "سادة", price: 620 },
                 { type: "محوج مخصوص", price: 960 }
             ]},
@@ -469,3 +486,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+        
