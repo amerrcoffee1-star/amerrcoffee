@@ -38,14 +38,14 @@ const productsData = [
         category: "بُن وسط",
         items: [
             { name: "بُن وسط - توليفة عامر", image: 'pr5.jpg', variants: [
-                { type: "سادة", price: 550 }, // سعر تقريبي
-                { type: "محوج", price: 610 },
-                { type: "محوج مخصوص", price: 730 }
+                { type: "سادة", price: 540 }, // سعر تقريبي
+                { type: "محوج", price: 600 },
+                { type: "محوج مخصوص", price: 720 }
             ]},
             { name: "بُن وسط - توليفة أرابيكا", image: 'pr5.jpg', variants: [
-                { type: "سادة", price: 610 },
-                { type: "محوج", price: 670 },
-                { type: "محوج مخصوص", price: 790 }
+                { type: "سادة", price: 620 },
+                { type: "محوج", price: 680 },
+                { type: "محوج مخصوص", price: 800 }
             ]},
         ]
     },
