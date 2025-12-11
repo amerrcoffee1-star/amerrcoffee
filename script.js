@@ -97,16 +97,16 @@ const productsData = [
                 { type: "محوج", price: 780 }
             ]},
             { name: "قهوة بندق", image: 'pr5.jpg', variants: [
-                { type: "محوج", price: 620 }
+                { type: "اوريجينال", price: 620 }
             ]},
             { name: "قهوة فرنساوي", image: 'pr5.jpg', variants: [
-                { type: "محوج", price: 600 }
+                { type: "اوريجينال", price: 600 }
             ]},
             { name: "نسكافيه كلاسيك", image: 'pr5.jpg', variants: [
-                { type: "اوريجنال", price: 1300 }
+                { type: "اوريجينال", price: 1300 }
             ]},
             { name: "نسكافيه جولد", image: 'pr5.jpg', variants: [
-                { type: "اوريجنال", price: 1500 }
+                { type: "اوريجينال", price: 1500 }
             ]},
         ]
     },
