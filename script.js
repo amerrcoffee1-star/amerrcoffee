@@ -19,9 +19,6 @@ const PAGE_SECTIONS = {
 };
 
 // البيانات الكاملة للمنتجات
-// ... (بداية الكود لم تتغير)
-
-// البيانات الكاملة للمنتجات
 const productsData = [
     // ... (بقية الفئات لم تتغير)
     {
@@ -384,7 +381,7 @@ function showToast(message, type = 'info') {
 // =======================================================
 // 4. وظيفة البحث والتطبيع (Normalization)
 // =======================================================
-// (لم تتغير)
+// (تم تصحيح الخطأ النحوي هنا)
 function normalizeArabic(text) {
     if (!text) return '';
     let normalized = text.toLowerCase().trim(); 
@@ -434,4 +431,88 @@ function handleGlobalSearch() {
         showToast(`تم التوجه لصفحة: ${PAGE_SECTIONS[foundPageId]}`, 'success');
         navigate(foundPageId);
     } else {
-     ،
+        // ✅ تم تصحيح الخطأ النحوي هنا (إزالة الفاصلة الزائدة)
+        showToast('لا توجد نتائج مطابقة لبحثك في المنتجات أو الصفحات.', 'info');
+    }
+}
+
+let searchTimeout;
+document.getElementById('global-search-input').addEventListener('input', () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(handleGlobalSearch, 1000); 
+});
+
+
+// =======================================================
+// 5. التهيئة الأولية (Initialization)
+// =======================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    navigate('home'); 
+    updateCartIconCount(); 
+    renderCart(); 
+
+    // ربط التنقل بأزرار القائمة الجانبية والقائمة السفلية
+    document.querySelectorAll('[data-page]').forEach(button => {
+        button.addEventListener('click', function() {
+            navigate(this.dataset.page);
+        });
+    });
+    
+    // ربط إغلاق القوائم الجانبية
+    const closeSidebarButtons = document.querySelectorAll('.close-sidebar-btn');
+    closeSidebarButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.closest('#side-drawer')) {
+                closeSidebar();
+            } else if (btn.closest('#cart-sidebar')) {
+                closeCartSidebar();
+            }
+        });
+    });
+    
+    // ربط زر فتح السلة
+    const cartButton = document.getElementById('cart-btn');
+    if (cartButton) {
+        cartButton.addEventListener('click', openCartSidebar);
+    }
+    
+    // ربط زر فتح القائمة الجانبية
+    const menuButton = document.getElementById('menu-btn');
+    if (menuButton) {
+        menuButton.addEventListener('click', openSidebar);
+    }
+    
+    // ربط زر الذهاب لصفحة إتمام الدفع في السلة الجانبية
+    const goToCheckoutBtn = document.getElementById('go-to-checkout-btn');
+    if (goToCheckoutBtn) {
+        goToCheckoutBtn.addEventListener('click', () => {
+            if (cart.length > 0) {
+                navigate('checkout');
+            } else {
+                showToast('سلة التسوق فارغة.', 'info');
+            }
+            closeCartSidebar();
+        });
+    }
+
+    // ربط زر إرسال الطلب في صفحة الدفع (Checkout)
+    const checkoutForm = document.getElementById('checkout-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                showToast('لا يمكن إتمام الطلب، السلة فارغة!', 'error');
+                return;
+            }
+
+            const name = document.getElementById('customer-name').value.trim();
+            const phone = document.getElementById('customer-phone').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+            
+            if (!name || !phone || !address) {
+                showToast('الرجاء تعبئة جميع حقول البيانات المطلوبة.', 'error');
+                return;
+            }
+  
