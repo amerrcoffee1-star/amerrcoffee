@@ -19,52 +19,11 @@ const PAGE_SECTIONS = {
 };
 
 // البيانات الكاملة للمنتجات
+// ... (بداية الكود لم تتغير)
+
+// البيانات الكاملة للمنتجات
 const productsData = [
-    {
-        category: "بُن فاتح",
-        items: [
-            { name: "بُن فاتح - توليفة عامر", image: 'pr5.jpg', variants: [
-                { type: "سادة", prices: { '125 ج': 70, '250 ج': 135, '500 ج': 270, '1000 ج': 540 } },
-                { type: "محوج", prices: { '125 ج': 75, '250 ج': 150, '500 ج': 300, '1000 ج': 600 } },
-                { type: "محوج مخصوص", prices: { '125 ج': 90, '250 ج': 180, '500 ج': 360, '1000 ج': 720 } }
-            ]},
-            { name: "بُن فاتح - توليفة أرابيكا", image: 'pr5.jpg', variants: [
-                { type: "سادة", prices: { '125 ج': 75, '250 ج': 150, '500 ج': 300, '1000 ج': 600 } },
-                { type: "محوج", prices: { '125 ج': 85, '250 ج': 165, '500 ج': 330, '1000 ج': 660 } },
-                { type: "محوج مخصوص", prices: { '125 ج': 100, '250 ج': 195, '500 ج': 390, '1000 ج': 780 } }
-            ]},
-        ]
-    },
-    {
-        category: "بُن وسط",
-        items: [
-            { name: "بُن وسط - توليفة عامر", image: 'pr5.jpg', variants: [
-                { type: "سادة", prices: { '125 ج': 70, '250 ج': 135, '500 ج': 270, '1000 ج': 540 } },
-                { type: "محوج", prices: { '125 ج': 75, '250 ج': 150, '500 ج': 300, '1000 ج': 600 } },
-                { type: "محوج مخصوص", prices: { '125 ج': 90, '250 ج': 180, '500 ج': 360, '1000 ج': 720 } }
-            ]},
-            { name: "بُن وسط - توليفة أرابيكا", image: 'pr5.jpg', variants: [
-                { type: "سادة", prices: { '125 ج': 75, '250 ج': 150, '500 ج': 300, '1000 ج': 600 } },
-                { type: "محوج", prices: { '125 ج': 85, '250 ج': 165, '500 ج': 330, '1000 ج': 660 } },
-                { type: "محوج مخصوص", prices: { '125 ج': 100, '250 ج': 195, '500 ج': 390, '1000 ج': 780 } }
-            ]},
-        ]
-    },
-    {
-        category: "بُن غامق",
-        items: [
-            { name: "بُن غامق - توليفة عامر", image: 'pr5.jpg', variants: [
-                { type: "سادة", prices: { '125 ج': 70, '250 ج': 140, '500 ج': 280, '1000 ج': 560 } },
-                { type: "محوج", prices: { '125 ج': 80, '250 ج': 155, '500 ج': 310, '1000 ج': 620 } },
-                { type: "محوج مخصوص", prices: { '125 ج': 95, '250 ج': 185, '500 ج': 370, '1000 ج': 740 } }
-            ]},
-            { name: "بُن غامق - توليفة أرابيكا", image: 'pr5.jpg', variants: [
-                { type: "سادة", prices: { '125 ج': 80, '250 ج': 155, '500 ج': 310, '1000 ج': 620 } },
-                { type: "محوج", prices: { '125 ج': 85, '250 ج': 170, '500 ج': 340, '1000 ج': 680 } },
-                { type: "محوج مخصوص", prices: { '125 ج': 100, '250 ج': 200, '500 ج': 400, '1000 ج': 800 } }
-            ]},
-        ]
-    },
+    // ... (بقية الفئات لم تتغير)
     {
         category: "بُن محروق",
         items: [
@@ -74,9 +33,34 @@ const productsData = [
                 { type: "محوج مخصوص", prices: { '125 ج': 95, '250 ج': 190, '500 ج': 380, '1000 ج': 760 } }
             ]},
             { name: "بُن - كولومبي", image: 'pr5.jpg', variants: [
-                { type: "سادة", prices: { '125 ج': 105, '250 ج': 205, '500 ج': 405, '1000 ج': 810 } },
-                { type: "محوج", prices: { '125 ج': 115, '250 ج': 230, '500 ج': 460, '1000 ج': 920 } },
-                { type: "محوج مخصوص", prices: { '125 ج': 125, '250 ج': 250, '500 ج': 495, '1000 ج': 990 } }
+                // 🛑 تم تحديث الأسعار هنا
+                { 
+                    type: "سادة", 
+                    prices: { 
+                        '125 ج': 120,    // 960 * 0.125 = 120
+                        '250 ج': 240,    // 960 * 0.25  = 240
+                        '500 ج': 480,    // 960 * 0.5   = 480
+                        '1000 ج': 960    // السعر الجديد
+                    } 
+                },
+                { 
+                    type: "محوج", 
+                    prices: { 
+                        '125 ج': 135,    // 1070 * 0.125 ≈ 133.75 -> 135
+                        '250 ج': 270,    // 1070 * 0.25  = 267.5 -> 270
+                        '500 ج': 535,    // 1070 * 0.5   = 535
+                        '1000 ج': 1070   // السعر الجديد
+                    } 
+                },
+                { 
+                    type: "محوج مخصوص", 
+                    prices: { 
+                        '125 ج': 145,    // 1140 * 0.125 = 142.5 -> 145
+                        '250 ج': 285,    // 1140 * 0.25  = 285
+                        '500 ج': 570,    // 1140 * 0.5   = 570
+                        '1000 ج': 1140   // السعر الجديد
+                    } 
+                }
             ]},
             { name: "بُن - حبشي", image: 'pr5.jpg', variants: [
                 { type: "سادة", prices: { '125 ج': 75, '250 ج': 150, '500 ج': 300, '1000 ج': 600 } },
@@ -89,36 +73,7 @@ const productsData = [
             ]},
         ]
     },
-    {
-        category: "قهوة فلفرز",
-        items: [
-            { name: "قهوة عربي", image: 'pr5.jpg', variants: [
-                { type: "سادة", prices: { '125 ج': 75, '250 ج': 150, '500 ج': 300, '1000 ج': 600 } },
-                { type: "محوج", prices: { '125 ج': 100, '250 ج': 195, '500 ج': 390, '1000 ج': 780 } }
-            ]},
-            { name: "قهوة بندق", image: 'pr5.jpg', variants: [
-                { type: "اوريجينال", prices: { '125 ج': 80, '250 ج': 155, '500 ج': 310, '1000 ج': 620 } }
-            ]},
-            { name: "قهوة فرنساوي", image: 'pr5.jpg', variants: [
-                { type: "اوريجينال", prices: { '125 ج': 75, '250 ج': 150, '500 ج': 300, '1000 ج': 600 } }
-            ]},
-            { name: "نسكافيه كلاسيك", image: 'pr5.jpg', variants: [
-                { type: "اوريجينال", prices: { '125 ج': 165, '250 ج': 325, '500 ج': 650, '1000 ج': 1300 } }
-            ]},
-            { name: "نسكافيه جولد", image: 'pr5.jpg', variants: [
-                { type: "اوريجينال", prices: { '125 ج': 190, '250 ج': 375, '500 ج': 750, '1000 ج': 1500 } }
-            ]},
-        ]
-    },
-    {
-        category: "",
-        items: [
-             ,
-            ,
-        ]
-    },
 ];
-
 let cart = JSON.parse(localStorage.getItem('amerrcoffeeCart')) || []; 
 
 // =======================================================
@@ -479,106 +434,4 @@ function handleGlobalSearch() {
         showToast(`تم التوجه لصفحة: ${PAGE_SECTIONS[foundPageId]}`, 'success');
         navigate(foundPageId);
     } else {
-        showToast('عذراً، لم يتم العثور على صفحات أو منتجات مطابقة.', 'error');
-        if (document.getElementById('store').style.display === 'block') {
-             renderStore(productsData);
-        }
-    }
-}
-
-// =======================================================
-// 5. معالجة نموذج الدفع (Checkout & WhatsApp)
-// =======================================================
-
-function handleCheckoutSubmit(event) {
-    event.preventDefault(); 
-
-    if (cart.length === 0) {
-        showToast('السلة فارغة. الرجاء إضافة منتجات قبل إتمام الطلب.', 'error');
-        return;
-    }
-    
-    const name = document.getElementById('customer-name').value.trim();
-    const phone = document.getElementById('customer-phone').value.trim();
-    const email = document.getElementById('customer-email').value.trim();
-    const address = document.getElementById('customer-address').value.trim();
-    const paymentMethodInput = document.querySelector('input[name="payment-method"]:checked');
-    const paymentMethod = paymentMethodInput ? paymentMethodInput.value : 'غير محدد'; 
-    
-    if (!name || !phone || !address) {
-        showToast('الرجاء إدخال الاسم ورقم الهاتف والعنوان بالكامل.', 'error');
-        return;
-    }
-    
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
-
-    let message = `*👋 طلب جديد من موقع Amerrcoffee*:\n\n`;
-    message += `*📝 بيانات العميل:*\nالاسم: ${name}\nالهاتف: ${phone}\nالعنوان: ${address}\n`;
-    if (email) message += `البريد: ${email}\n\n`;
-    message += `*🛒 تفاصيل الطلب:*\n`;
-    
-    cart.forEach((item, index) => {
-        message += `${index + 1}. ${item.name} - ${item.type} (${item.size}) x ${item.quantity} = ${(item.price * item.quantity).toFixed(2)} ج\n`;
-    });
-    
-    message += `\n*💰 الإجمالي الكلي:* ${total} ج\n`;
-    message += `*💳 طريقة الدفع المختارة:* ${paymentMethod}\n\n`;
-    message += `شكراً لاختياركم بُن عامر!`;
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappLink = `https://wa.me/${WHATSAPP_PHONE_NUMBER}?text=${encodedMessage}`;
-    
-    window.open(whatsappLink, '_blank');
-    
-    cart = [];
-    saveCartAndRender();
-    
-    showToast('تم إعداد الطلب بنجاح! يرجى إرساله الآن عبر واتساب.', 'success');
-    navigate('home'); 
-}
-
-
-// =======================================================
-// 6. تهيئة الصفحة وربط الأحداث
-// =======================================================
-
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. عرض الصفحة الافتراضية
-    navigate('home');
-    
-    // 2. تحديث عداد السلة عند التحميل
-    updateCartIconCount();
-    
-    // 3. ربط أزرار القوائم الجانبية
-    document.getElementById('sidebar-toggle').addEventListener('click', openSidebar);
-    document.getElementById('cart-toggle').addEventListener('click', openCartSidebar);
-    
-    // 4. ربط وظيفة البحث
-    const searchButton = document.getElementById('global-search-btn');
-    const searchInput = document.getElementById('global-search-input');
-    
-    if (searchButton) {
-        searchButton.addEventListener('click', handleGlobalSearch);
-    }
-    if (searchInput) {
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                handleGlobalSearch();
-            }
-        });
-    }
-
-    // 5. ربط نموذج الدفع
-    const checkoutForm = document.getElementById('checkout-form');
-    if (checkoutForm) {
-        checkoutForm.addEventListener('submit', handleCheckoutSubmit);
-    }
-    
-    // 6. ربط أزرار التنقل (لضمان إغلاق القائمة الجانبية بعد الضغط عليها)
-    document.querySelectorAll('[data-page]').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            navigate(button.dataset.page);
-        });
-    });
-});
+     ،
