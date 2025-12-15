@@ -1,81 +1,113 @@
-// script.js - النسخة النهائية والمحدثة بالبيانات الكاملة والتصحيحات
+// script.js
+// يحتوي على جميع البيانات والوظائف التفاعلية وإدارة عربة التسوق وتفعيل محاكاة التسجيل
 
-// 🚨🚨🚨 [ بيانات الإعدادات ] 🚨🚨🚨
-const WHATSAPP_PHONE_NUMBER = '201029352797'; 
-const availableSizes = ['125 ج', '250 ج', '500 ج', '1000 ج']; 
-const defaultSize = availableSizes[3]; 
+// 🚨🚨🚨 [ بيانات إرسال نموذج جوجل - تسجيل الدخول ] 🚨🚨🚨
+// هذا الجزء من الكود لا يزال يرسل بيانات تسجيل الدخول إلى نموذج جوجل القديم الذي أرسلته سابقاً لتجميع بيانات العملاء
+const LOGIN_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeU6-a8LoCxMOfYhoPVilPOe0zRyNSHm81mWseU4EXjqktDVw/formResponse'; 
+const EMAIL_ENTRY_ID_LOGIN = 'entry.2005620554'; 
+const PASSWORD_ENTRY_ID_LOGIN = 'entry.1045781291'; 
+// 🚨🚨🚨 [ بيانات إرسال الطلبات عبر واتساب (الجديد والمفعل) ] 🚨🚨🚨
+const WHATSAPP_PHONE_NUMBER = '201029352797'; // 💡 يرجى تغيير هذا الرقم إلى رقمك الحقيقي
+// 🚨🚨🚨 ---------------------------- 🚨🚨🚨
+
 
 // =======================================================
-// 1. البيانات الأساسية (Data Model)
+// 1. البيانات الأساسية للموقع (Data Model)
 // =======================================================
+let isUserLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-const PAGE_SECTIONS = {
-    'home': 'الرئيسية',
-    'store': 'المتجر وقائمة المنتجات',
-    'menu-page': 'Menu ',
-    'who-are-we': 'من نحن',
-    'contact': 'تواصل معنا',
-    'checkout': 'إتمام عملية الدفع', 
+// بيانات المستخدم الافتراضية للمحاكاة (تستخدم فقط في منطق المصادقة الآن)
+const DEFAULT_USER_DATA = {
+    name: "المستخدم المميز",
+    email: "user.amerrcoffee@example.com",
+    phone: "010-9988-7766",
+    image: "profile_default.png" 
 };
 
-// البيانات الكاملة للمنتجات
 const productsData = [
-    // ... (بقية الفئات لم تتغير)
     {
-        category: "بُن محروق",
+        category: "بن فاتح - وسط",
         items: [
-            { name: "بُن محروق - توليفة عامر", image: 'pr5.jpg', variants: [
-                { type: "سادة", prices: { '125 ج': 75, '250 ج': 145, '500 ج': 290, '1000 ج': 580 } },
-                { type: "محوج", prices: { '125 ج': 80, '250 ج': 160, '500 ج': 320, '1000 ج': 640 } },
-                { type: "محوج مخصوص", prices: { '125 ج': 95, '250 ج': 190, '500 ج': 380, '1000 ج': 760 } }
+            { name: "توليفة عامر", image: 'pr5.jpg', variants: [
+                { type: "سادة", price: 540 },
+                { type: "محوج", price: 600 },
+                { type: "محوج مخصوص", price: 720 }
             ]},
-            { name: "بُن - كولومبي", image: 'pr5.jpg', variants: [
-                // 🛑 تم تحديث الأسعار هنا
-                { 
-                    type: "سادة", 
-                    prices: { 
-                        '125 ج': 120,    // 960 * 0.125 = 120
-                        '250 ج': 240,    // 960 * 0.25  = 240
-                        '500 ج': 480,    // 960 * 0.5   = 480
-                        '1000 ج': 960    // السعر الجديد
-                    } 
-                },
-                { 
-                    type: "محوج", 
-                    prices: { 
-                        '125 ج': 135,    // 1070 * 0.125 ≈ 133.75 -> 135
-                        '250 ج': 270,    // 1070 * 0.25  = 267.5 -> 270
-                        '500 ج': 535,    // 1070 * 0.5   = 535
-                        '1000 ج': 1070   // السعر الجديد
-                    } 
-                },
-                { 
-                    type: "محوج مخصوص", 
-                    prices: { 
-                        '125 ج': 145,    // 1140 * 0.125 = 142.5 -> 145
-                        '250 ج': 285,    // 1140 * 0.25  = 285
-                        '500 ج': 570,    // 1140 * 0.5   = 570
-                        '1000 ج': 1140   // السعر الجديد
-                    } 
-                }
+            { name: "توليفة أرابيكا", image: 'pr5.jpg', variants: [
+                { type: "سادة", price: 600 },
+                { type: "محوج", price: 660 },
+                { type: "محوج مخصوص", price: 780 }
             ]},
-            { name: "بُن - حبشي", image: 'pr5.jpg', variants: [
-                { type: "سادة", prices: { '125 ج': 75, '250 ج': 150, '500 ج': 300, '1000 ج': 600 } },
-                { type: "محوج", prices: { '125 ج': 85, '250 ج': 165, '500 ج': 330, '1000 ج': 660 } },
-                { type: "محوج مخصوص", prices: { '125 ج': 100, '250 ج': 195, '500 ج': 390, '1000 ج': 780 } }
+        ]
+    },
+    {
+        category: "بن غامق شرقي",
+        items: [
+            { name: "توليفة عامر", image: 'pr5.jpg', variants: [
+                { type: "سادة", price: 560 },
+                { type: "محوج", price: 620 },
+                { type: "محوج مخصوص", price: 740 }
+            ]},
+            { name: "توليفة أرابيكا", image: 'pr5.jpg', variants: [
+                { type: "سادة", price: 620 },
+                { type: "محوج", price: 680 },
+                { type: "محوج مخصوص", price: 800 }
+            ]},
+        ]
+    },
+    {
+        category: "بن محروق",
+        items: [
+            { name: "توليفة عامر", image: 'pr5.jpg', variants: [
+                { type: "سادة", price: 580 },
+                { type: "محوج", price: 640 },
+                { type: "محوج مخصوص", price: 760 }
+            ]},
+            { name: "كولومبي", image: 'pr5.jpg', variants: [
+                { type: "سادة", price: 960 },
+                { type: "محوج", price: 1070 },
+                { type: "محوج مخصوص", price: 1140 }
+            ]},
+            { name: "حبشي", image: 'pr5.jpg', variants: [
+                { type: "سادة", price: 600 },
+                { type: "محوج", price: 660 },
+                { type: "محوج مخصوص", price: 780 }
             ]},
             { name: "اسبريسو", image: 'pr5.jpg', variants: [
-                { type: "70% ارابيكا", prices: { '125 ج': 80, '250 ج': 155, '500 ج': 310, '1000 ج': 620 } },
-                { type: "100% ارابيكا ", prices: { '125 ج': 120, '250 ج': 240, '500 ج': 480, '1000 ج': 960 } }
+                { type: "سادة", price: 620 },
+                { type: "محوج مخصوص", price: 960 }
+            ]},
+        ]
+    },
+    {
+        category: "القهوة",
+        items: [
+            { name: "قهوة عربي", image: 'pr5.jpg', variants: [
+                { type: "سادة", price: 600 },
+                { type: "محوج", price: 780 }
+            ]},
+            { name: "قهوة بندق", image: 'pr5.jpg', variants: [
+                { type: "محوج", price: 620 }
+            ]},
+            { name: "قهوة فرنساوي", image: 'pr5.jpg', variants: [
+                { type: "محوج", price: 600 }
+            ]},
+            { name: "نسكافيه كلاسيك", image: 'pr5.jpg', variants: [
+                { type: "محوج", price: 1300 }
+            ]},
+            { name: "نسكافيه جولد", image: 'pr5.jpg', variants: [
+                { type: "محوج", price: 1500 }
             ]},
         ]
     },
 ];
-let cart = JSON.parse(localStorage.getItem('amerrcoffeeCart')) || []; 
+
 
 // =======================================================
 // 2. إدارة عربة التسوق (Cart Management)
 // =======================================================
+
+let cart = JSON.parse(localStorage.getItem('amerrcoffeeCart')) || []; 
 
 function saveCartAndRender() {
     localStorage.setItem('amerrcoffeeCart', JSON.stringify(cart));
@@ -95,90 +127,66 @@ function updateCartIconCount() {
 function addToCart(button) {
     const card = button.closest('.product-card');
     const productName = card.dataset.productName;
-    const safeName = productName.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, '_'); 
+    const selectedVariant = card.querySelector(`input[name="${productName}-variant"]:checked`);
     
-    const selectedTypeInput = card.querySelector(`input[name="${safeName}-type"]:checked`);
-    const selectedSizeInput = card.querySelector(`input[name="${safeName}-size"]:checked`);
-
-    if (!selectedTypeInput || !selectedSizeInput) {
-        showToast('الرجاء اختيار نوع القهوة والحجم المطلوب.', 'error');
+    if (!selectedVariant) {
+        alert('الرجاء اختيار نوع القهوة (سادة/محوج/مخصوص).');
         return;
     }
 
-    const type = selectedTypeInput.value;
-    const size = selectedSizeInput.value;
-
-    const productData = productsData.flatMap(c => c.items).find(i => i.name === productName);
-    const variant = productData.variants.find(v => v.type === type);
-    const price = variant ? variant.prices[size] : 0; 
-    
-    if (price <= 0) {
-         showToast(`السعر غير محدد لهذا الاختيار.`, 'error');
-         return;
-    }
-
-    const productId = `${productName}-${type}-${size}`; 
+    const type = selectedVariant.value;
+    const price = parseFloat(selectedVariant.dataset.price);
+    const productId = `${productName}-${type}`; 
 
     const existingItem = cart.find(item => item.id === productId);
 
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cart.push({ id: productId, name: productName, type: type, size: size, price: price, quantity: 1 });
+        cart.push({ id: productId, name: productName, type: type, price: price, quantity: 1 });
     }
     
     saveCartAndRender();
     openCartSidebar(); 
-    showToast(`✅ تم إضافة المنتج إلى السلة!`, 'success');
+    alert(`تم إضافة توليفة ${productName} - ${type} إلى السلة!`);
 }
 
 function renderCart() {
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalElement = document.getElementById('cart-total');
-    const checkoutSummaryContainer = document.getElementById('checkout-items-summary');
     const checkoutTotalElement = document.getElementById('checkout-total');
     
     let total = 0;
 
+    if (!cartItemsContainer || !cartTotalElement) return;
+
     if (cart.length === 0) {
-        const message = '<p style="text-align: center; margin-top: 20px; color: #777;">السلة فارغة حالياً.</p>';
-        if (cartItemsContainer) cartItemsContainer.innerHTML = message;
-        if (checkoutSummaryContainer) checkoutSummaryContainer.innerHTML = message;
-        if (cartTotalElement) cartTotalElement.textContent = '0.00 ج';
+        cartItemsContainer.innerHTML = '<p style="text-align: center; margin-top: 20px; color: #333;">السلة فارغة حالياً.</p>';
+        cartTotalElement.textContent = '0.00 ج';
         if (checkoutTotalElement) checkoutTotalElement.textContent = '0.00 ج';
         return;
     }
 
     let cartHtml = '';
-    let summaryHtml = '';
     cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
-        const itemDetails = `${item.type} (${item.size})`; 
-
         cartHtml += `
             <div class="cart-item">
-                <p><strong>${item.name}</strong><br><span style="font-size: 0.9em; color: #777;">${itemDetails}</span></p>
+                <p style="font-size: 0.9em; margin-bottom: 5px;"><strong>${item.name}</strong> - ${item.type}</p>
                 <div class="item-controls">
                     <button onclick="changeQuantity('${item.id}', -1)">-</button>
                     <span>${item.quantity}</span>
                     <button onclick="changeQuantity('${item.id}', 1)">+</button>
-                    <span style="min-width: 60px; text-align: left;">${itemTotal.toFixed(2)} ج</span>
-                    <button onclick="removeItem('${item.id}')" style="color: var(--color-error); border-color: var(--color-error); margin-left: 5px;">&times;</button>
+                    <span style="margin: 0 10px; font-weight: bold;">${itemTotal.toFixed(2)} ج</span>
+                    <button onclick="removeItem('${item.id}')" style="color: #A0522D; margin-right: 10px; font-size: 1.2em;">&times;</button>
                 </div>
-            </div>
-        `;
-        summaryHtml += `
-            <div class="summary-item">
-                <span>${item.name} (${itemDetails}) x ${item.quantity}</span>
-                <span>${itemTotal.toFixed(2)} ج</span>
             </div>
         `;
     });
 
-    if (cartItemsContainer) cartItemsContainer.innerHTML = cartHtml;
-    if (checkoutSummaryContainer) checkoutSummaryContainer.innerHTML = summaryHtml;
-    if (cartTotalElement) cartTotalElement.textContent = `${total.toFixed(2)} ج`;
+    cartItemsContainer.innerHTML = cartHtml;
+    cartTotalElement.textContent = `${total.toFixed(2)} ج`;
     if (checkoutTotalElement) checkoutTotalElement.textContent = `${total.toFixed(2)} ج`;
 }
 
@@ -197,7 +205,6 @@ function changeQuantity(productId, delta) {
 function removeItem(productId) {
     cart = cart.filter(item => item.id !== productId);
     saveCartAndRender();
-    showToast('تم حذف المنتج من السلة.', 'info');
 }
 
 
@@ -209,99 +216,53 @@ function navigate(pageId) {
     document.querySelectorAll('.page-section').forEach(section => {
         section.style.display = 'none';
     });
-    
     const targetSection = document.getElementById(pageId);
     if (targetSection) {
         targetSection.style.display = 'block';
     }
     
-    document.querySelectorAll('.footer-nav button').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.page === pageId) {
-            btn.classList.add('active');
-        }
-    });
-
-    if (pageId === 'checkout') {
+    // عند الانتقال لصفحة الدفع، يتم تحديث الإجمالي
+    if (pageId === 'checkout-page') {
         renderCart(); 
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+        const checkoutTotalElement = document.getElementById('checkout-total');
+        if (checkoutTotalElement) {
+            checkoutTotalElement.textContent = `${total} ج`;
+        }
     }
     
-    if (pageId === 'store') {
-        renderStore(productsData); 
+    // إظهار زر تسجيل الخروج داخل صفحة تسجيل الدخول إذا كان المستخدم مسجلاً
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+        logoutButton.style.display = (pageId === 'login-page' && isUserLoggedIn) ? 'block' : 'none';
     }
 
-    // 🚨 التصحيح هنا: إغلاق القائمة الجانبية بعد التنقل إذا كانت مفتوحة
     closeSidebar();
     closeCartSidebar();
 }
 
-function renderStore(dataToRender = productsData) {
+function renderStore() {
     const storeContainer = document.getElementById('store-content');
     if (!storeContainer) return;
 
     let htmlContent = '';
-    
-    const hasResults = dataToRender.some(category => category.items.length > 0);
-    if (!hasResults && dataToRender.length > 0) {
-        storeContainer.innerHTML = '<p style="text-align: center; padding: 50px;">لا توجد منتجات مطابقة لنتيجة البحث.</p>';
-        return;
-    }
-
-    dataToRender.forEach(category => {
-        if (category.items.length === 0) return;
-
-        htmlContent += `<h2 class="category-title">${category.category}</h2><div class="product-grid">`;
+    productsData.forEach(category => {
+        htmlContent += `<h2 class="category-title" style="border-bottom: 2px solid var(--accent-color); padding-bottom: 5px; margin-top: 30px; color: var(--primary-color);">${category.category}</h2><div class="product-grid">`;
         
         category.items.forEach(item => {
-            const safeName = item.name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, '_'); 
-            
-            // مُحدّد الحجم
-            const sizeSelectorHtml = `
-                <div class="size-selector variant-selector">
-                    <h4 style="margin-bottom: 5px;">اختر الحجم:</h4>
-                    <div class="size-options">
-                        ${availableSizes.map((size) => {
-                             const isChecked = size === defaultSize ? 'checked' : '';
-                             return `
-                                <label class="payment-card size-card">
-                                    <input type="radio" id="${safeName}-size-${size}" name="${safeName}-size" value="${size}" ${isChecked} class="size-radio-btn">
-                                    <span class="card-content">${size.replace(' ج', '')}g</span>
-                                </label>
-                            `;
-                        }).join('')}
-                    </div>
-                </div>
-            `;
-            
-            // مُحدّد النوع/التوليفة
-            const typeSelectorHtml = `
-                <div class="type-selector variant-selector">
-                    <h4 style="margin-bottom: 5px;">اختر النوع:</h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                        ${item.variants.map((variant, index) => `
-                            <label class="payment-card type-card">
-                                <input type="radio" id="${safeName}-type-${variant.type}" name="${safeName}-type" value="${variant.type}" ${index === 0 ? 'checked' : ''} class="type-radio-btn">
-                                <span class="card-content">${variant.type}</span>
-                            </label>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-            
-            const initialPrice = item.variants[0].prices[defaultSize];
-            const priceText = `${initialPrice.toFixed(2)} ج`;
-            
             htmlContent += `
                 <div class="product-card" data-product-name="${item.name}" data-category="${category.category}">
-                    <img src="${item.image}" alt="${item.name}" class="product-image" loading="lazy">
+                    <img src="${item.image}" alt="${item.name}" class="product-image">
                     <h3>${item.name}</h3>
                     
-                    ${typeSelectorHtml}
-                    ${sizeSelectorHtml} 
-                    
-                    <strong class="product-price-display" id="${safeName}-price-display" style="color: var(--color-primary); margin: 15px 0 10px; font-size: 1.3em;">
-                        ${priceText}
-                    </strong>
+                    <div class="variant-selector">
+                        ${item.variants.map((variant, index) => `
+                            <div class="variant-option">
+                                <input type="radio" id="${item.name}-${variant.type}" name="${item.name}-variant" value="${variant.type}" data-price="${variant.price}" ${index === 0 ? 'checked' : ''}>
+                                <label for="${item.name}-${variant.type}">${variant.type} (${variant.price} ج)</label>
+                            </div>
+                        `).join('')}
+                    </div>
                     
                     <button class="add-to-cart-btn" onclick="addToCart(this)">أضف إلى السلة</button>
                 </div>
@@ -310,42 +271,6 @@ function renderStore(dataToRender = productsData) {
         htmlContent += `</div>`;
     });
     storeContainer.innerHTML = htmlContent;
-    
-    // ربط مستمعي الأحداث لتحديث السعر وتنسيق الاختيار
-    document.querySelectorAll('.product-card').forEach(card => {
-        const productName = card.dataset.productName;
-        const safeName = productName.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, '_');
-        const priceDisplay = document.getElementById(`${safeName}-price-display`);
-        const productData = productsData.flatMap(c => c.items).find(i => i.name === productName);
-
-        const updatePriceDisplay = () => {
-            const selectedTypeInput = card.querySelector(`input[name="${safeName}-type"]:checked`);
-            const selectedSizeInput = card.querySelector(`input[name="${safeName}-size"]:checked`);
-            
-            if (!selectedTypeInput || !selectedSizeInput) return;
-
-            const selectedType = selectedTypeInput.value;
-            const selectedSize = selectedSizeInput.value;
-            
-            const variant = productData.variants.find(v => v.type === selectedType);
-            const price = variant ? variant.prices[selectedSize] : 0;
-            
-            priceDisplay.textContent = `${price.toFixed(2)} ج`;
-
-            // تحديث حالة الاختيار لـ CSS (لإضافة الكلاس selected)
-            card.querySelectorAll('.size-card').forEach(label => label.classList.remove('selected'));
-            selectedSizeInput.closest('label').classList.add('selected');
-            
-            card.querySelectorAll('.type-card').forEach(label => label.classList.remove('selected'));
-            selectedTypeInput.closest('label').classList.add('selected');
-        };
-
-        card.querySelectorAll(`input[name="${safeName}-type"]`).forEach(radio => radio.addEventListener('change', updatePriceDisplay));
-        card.querySelectorAll(`input[name="${safeName}-size"]`).forEach(radio => radio.addEventListener('change', updatePriceDisplay));
-        
-        // تطبيق التنسيق الأولي
-        updatePriceDisplay();
-    });
 }
 
 function openSidebar() {
@@ -357,162 +282,185 @@ function closeSidebar() {
 
 function openCartSidebar() {
     document.getElementById('cart-sidebar').classList.add('open');
-    renderCart(); 
+    renderCart();
 }
 function closeCartSidebar() {
     document.getElementById('cart-sidebar').classList.remove('open');
 }
 
-function showToast(message, type = 'info') {
-    const toast = document.getElementById('toast-notification');
-    if (!toast) return;
+// =======================================================
+// 4. وظائف التسجيل واللغة (Auth & Language)
+// =======================================================
 
-    toast.textContent = message;
-    toast.className = 'toast-notification'; 
-    toast.classList.add(type);
-    toast.classList.add('show');
+function updateAuthUI() {
+    const authButton = document.getElementById('auth-button'); 
+    if (!authButton) return; 
 
-    setTimeout(function(){ 
-        toast.classList.remove('show');
-    }, 3500);
+    if (isUserLoggedIn) {
+        authButton.innerHTML = '✅ تم تسجيل الدخول';
+        authButton.onclick = () => navigate('login-page');
+    } else {
+        authButton.innerHTML = '👤 تسجيل الدخول / التسجيل';
+        authButton.onclick = () => navigate('login-page');
+    }
 }
 
 
-// =======================================================
-// 4. وظيفة البحث والتطبيع (Normalization)
-// =======================================================
-// (تم تصحيح الخطأ النحوي هنا)
-function normalizeArabic(text) {
-    if (!text) return '';
-    let normalized = text.toLowerCase().trim(); 
-    normalized = normalized.replace(/بُن/g, 'بن');
-    normalized = normalized.replace(/[\u064B-\u0652]/g, ''); 
-    return normalized;
-}
-
-function handleGlobalSearch() {
-    const query = document.getElementById('global-search-input').value.trim();
+function handleSocialLogin(platform) {
+    isUserLoggedIn = true;
+    localStorage.setItem('isLoggedIn', 'true');
     
-    if (query.length < 2) {
-        showToast('الرجاء إدخال حرفين على الأقل للبحث.', 'info');
+    DEFAULT_USER_DATA.name = `المستخدم عبر ${platform}`;
+    DEFAULT_USER_DATA.email = `signed_in_via_${platform}@example.com`;
+    
+    alert(`✅ تم التسجيل بنجاح عبر ${platform}.`);
+    updateAuthUI();
+    navigate('home'); 
+}
+
+function handleEmailLogin(event) {
+    event.preventDefault(); 
+    
+    const emailInput = document.getElementById('login-email');
+    const passwordInput = document.getElementById('login-password');
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    if (!email || password.length < 6) { 
+        alert('الرجاء إدخال بريد إلكتروني صالح وكلمة مرور لا تقل عن 6 أحرف.');
         return;
     }
-    
-    const normalizedQuery = normalizeArabic(query);
-    let foundPageId = null;
-    let filteredResults = []; 
 
-    for (const id in PAGE_SECTIONS) {
-        if (normalizeArabic(PAGE_SECTIONS[id]).includes(normalizedQuery)) {
-            foundPageId = id;
-            break; 
-        }
-    }
+    const formData = new FormData();
+    formData.append(EMAIL_ENTRY_ID_LOGIN, email); 
+    formData.append(PASSWORD_ENTRY_ID_LOGIN, password);
+
+    // 1. محاكاة تسجيل الدخول والواجهة الأمامية
+    isUserLoggedIn = true;
+    localStorage.setItem('isLoggedIn', 'true');
     
-    productsData.forEach(category => {
-        const matchingItems = category.items.filter(item => {
-            const normalizedName = normalizeArabic(item.name);
-            return normalizedName.includes(normalizedQuery);
-        });
-        
-        if (matchingItems.length > 0) {
-            filteredResults.push({
-                category: category.category,
-                items: matchingItems
-            });
-        }
+    DEFAULT_USER_DATA.name = email.split('@')[0];
+    DEFAULT_USER_DATA.email = email;
+    
+    updateAuthUI(); 
+
+    // 2. إرسال البيانات إلى نموذج جوجل (لتجميع بيانات تسجيل الدخول)
+    fetch(LOGIN_FORM_ACTION_URL, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors' 
+    })
+    .then(() => {
+        // لا نحتاج لإظهار رسالة الإرسال هنا
+    })
+    .catch(error => {
+        console.error('فشل إرسال بيانات تسجيل الدخول إلى نموذج جوجل:', error);
     });
 
-    if (filteredResults.length > 0) {
-        showToast(`تم العثور على منتجات مطابقة في المتجر.`, 'success');
-        navigate('store');
-        renderStore(filteredResults); 
-    } else if (foundPageId) {
-        showToast(`تم التوجه لصفحة: ${PAGE_SECTIONS[foundPageId]}`, 'success');
-        navigate(foundPageId);
-    } else {
-        // ✅ تم تصحيح الخطأ النحوي هنا (إزالة الفاصلة الزائدة)
-        showToast('لا توجد نتائج مطابقة لبحثك في المنتجات أو الصفحات.', 'info');
-    }
+    alert(`✅ تم تسجيل دخولك (محاكاة).`);
+    navigate('home'); 
+
+    emailInput.value = '';
+    passwordInput.value = '';
 }
 
-let searchTimeout;
-document.getElementById('global-search-input').addEventListener('input', () => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(handleGlobalSearch, 1000); 
-});
+function handleLogout() {
+    isUserLoggedIn = false;
+    localStorage.setItem('isLoggedIn', 'false');
+    alert('تم تسجيل الخروج بنجاح!');
+    updateAuthUI();
+    closeSidebar();
+    navigate('home'); 
+}
 
 
 // =======================================================
-// 5. التهيئة الأولية (Initialization)
+// 5. وظيفة معالجة تأكيد الطلب (إرسال إلى واتساب)
+// =======================================================
+
+function handleCheckout(event) {
+    event.preventDefault(); 
+
+    if (cart.length === 0) {
+        alert("عربة التسوق فارغة! لا يمكن إرسال طلب.");
+        return;
+    }
+
+    // 1. جمع بيانات العميل من النموذج
+    const name = document.getElementById('customer-name').value;
+    const phone = document.getElementById('customer-phone').value;
+    const email = document.getElementById('customer-email').value;
+    const address = document.getElementById('customer-address').value;
+    
+    const paymentMethodInput = document.querySelector('input[name="payment-method"]:checked');
+    const paymentMethodName = paymentMethodInput ? paymentMethodInput.value : 'لم يتم تحديده';
+
+    // 2. تجميع بيانات الطلب
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+    let orderDetailsList = cart.map(item => `- ${item.name} (${item.type}): ${item.quantity} x ${item.price} ج`).join('\n');
+    
+    // بناء رسالة واتساب شاملة
+    const whatsappMessage = 
+`*🚨 طلب جديد من موقع عامر كوفي (Amerr Coffee) 🚨*
+
+*الاسم:* ${name}
+*الهاتف:* ${phone}
+*الإيميل:* ${email || 'لا يوجد'}
+*العنوان:* ${address}
+*طريقة الدفع:* ${paymentMethodName}
+
+*============== تفاصيل الطلب ==============*
+${orderDetailsList}
+
+*الإجمالي الكلي:* ${total} ج
+
+---
+يرجى تأكيد الطلب، وشكراً.`;
+
+    // 3. التوجيه إلى واتساب (شبه تلقائي)
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE_NUMBER}?text=${encodedMessage}`;
+
+    // تفريغ السلة قبل التوجيه
+    cart = [];
+    saveCartAndRender();
+    
+    // 💡 فتح رابط واتساب في نفس النافذة لتقليل خطوات العميل
+    window.open(whatsappUrl, '_self'); 
+    
+    // لا يتم إظهار رسالة alert هنا لتكون التجربة أكثر سلاسة
+}
+
+
+// =======================================================
+// 6. تشغيل الوظائف عند تحميل الصفحة
 // =======================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     navigate('home'); 
-    updateCartIconCount(); 
-    renderCart(); 
+    renderStore();
 
-    // ربط التنقل بأزرار القائمة الجانبية والقائمة السفلية
-    document.querySelectorAll('[data-page]').forEach(button => {
-        button.addEventListener('click', function() {
-            navigate(this.dataset.page);
-        });
-    });
-    
-    // ربط إغلاق القوائم الجانبية
-    const closeSidebarButtons = document.querySelectorAll('.close-sidebar-btn');
-    closeSidebarButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (btn.closest('#side-drawer')) {
-                closeSidebar();
-            } else if (btn.closest('#cart-sidebar')) {
-                closeCartSidebar();
-            }
-        });
-    });
-    
-    // ربط زر فتح السلة
-    const cartButton = document.getElementById('cart-btn');
-    if (cartButton) {
-        cartButton.addEventListener('click', openCartSidebar);
-    }
-    
-    // ربط زر فتح القائمة الجانبية
-    const menuButton = document.getElementById('menu-btn');
-    if (menuButton) {
-        menuButton.addEventListener('click', openSidebar);
-    }
-    
-    // ربط زر الذهاب لصفحة إتمام الدفع في السلة الجانبية
-    const goToCheckoutBtn = document.getElementById('go-to-checkout-btn');
-    if (goToCheckoutBtn) {
-        goToCheckoutBtn.addEventListener('click', () => {
-            if (cart.length > 0) {
-                navigate('checkout');
-            } else {
-                showToast('سلة التسوق فارغة.', 'info');
-            }
-            closeCartSidebar();
-        });
-    }
+    renderCart();
+    updateCartIconCount();
+    updateAuthUI(); 
 
-    // ربط زر إرسال الطلب في صفحة الدفع (Checkout)
+    document.getElementById('sidebar-toggle').onclick = openSidebar;
+    document.getElementById('cart-toggle').onclick = openCartSidebar;
+
     const checkoutForm = document.getElementById('checkout-form');
     if (checkoutForm) {
-        checkoutForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (cart.length === 0) {
-                showToast('لا يمكن إتمام الطلب، السلة فارغة!', 'error');
-                return;
-            }
-
-            const name = document.getElementById('customer-name').value.trim();
-            const phone = document.getElementById('customer-phone').value.trim();
-            const address = document.getElementById('customer-address').value.trim();
-            
-            if (!name || !phone || !address) {
-                showToast('الرجاء تعبئة جميع حقول البيانات المطلوبة.', 'error');
-                return;
-            }
-  
+        checkoutForm.addEventListener('submit', handleCheckout);
+    }
+    
+    const loginForm = document.getElementById('email-login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleEmailLogin);
+    }
+    
+    // إخفاء زر تسجيل الخروج عند التحميل الأولي
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+        logoutButton.style.display = 'none';
+    }
+});
+        
